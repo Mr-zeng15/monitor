@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QC 风控卫士 - 产量预警监控系统</title>
+  <script>
+    /* ★ 主题持久化（2026-09-23）：在首帧样式生效前，把上次选择的主题写回 <html>。
+       否则刷新后恒回「深夜」，用户看到的白天主题会「没生效」/先黑一下再变白。 */
+    (function () {
+      try {
+        var t = localStorage.getItem('qc-theme');
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch (e) { /* 隐私模式 / 禁用 localStorage 时忽略，沿用默认 deep night */ }
+    })();
+  </script>
+  <style>
+    /* 关键内联样式：防止初次加载白屏闪烁 */
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #03090f;
+      color: #c8ddf5;
+      font-family: 'Microsoft JhengHei', 'PingFang SC', 'Noto Sans SC', sans-serif;
+      overflow: hidden;
+    }
+
+    #app {
+      width: 100%;
+      height: 100%;
+      background: #03090f;
+    }
+
+    /* 加载占位 */
+    .app-loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #00d4aa;
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+
+    .app-loader::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      border: 2px solid rgba(0, 212, 170, 0.2);
+      border-top-color: #00d4aa;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    /* === 关键：Element Plus 表格表头内联样式（防止白屏闪烁） === */
+    /* 这些样式必须在外部 CSS 加载前就生效，避免刷新时表头闪白 */
+    .el-table,
+    .el-table__inner-wrapper,
+    .el-table__body-wrapper,
+    .el-table__header-wrapper,
+    .el-table__footer-wrapper,
+    .table-wrapper,
+    [class*="table"] {
+      --el-table-bg-color: transparent;
+      --el-table-tr-bg-color: transparent;
+      --el-table-header-bg-color: rgba(0, 50, 110, 0.4);
+      --el-table-row-hover-bg-color: rgba(0, 80, 180, 0.1);
+      --el-table-border-color: #0a2d48;
+      --el-table-text-color: #c8ddf5;
+      --el-table-header-text-color: #6aa3c8;
+      --el-table-header-text-align: center;
+      --el-table-cell-hover-background-color: rgba(0, 80, 180, 0.1);
+      background-color: transparent !important;
+      background: transparent !important;
+      color: #c8ddf5 !important;
+    }
+
+    .el-table {
+      font-size: 11px !important;
+    }
+
+    .el-table__inner-wrapper,
+    .el-table__body-wrapper,
+    .el-table__header-wrapper {
+      background: transparent !important;
+    }
+
+    .el-table__header-wrapper {
+      background: rgba(0, 30, 60, 0.5) !important;
+    }
+
+    .el-table th.el-table__cell {
+      background: rgba(0, 40, 90, 0.6) !important;
+      color: #6aa3c8 !important;
+      font-size: 10px !important;
+      font-weight: 500 !important;
+      text-align: center !important;
+      border-right: 1px solid rgba(0, 119, 204, 0.25) !important;
+      border-bottom: 1px solid rgba(0, 119, 204, 0.4) !important;
+    }
+
+    .el-table th.el-table__cell:last-child {
+      border-right: none !important;
+    }
+
+    .el-table td.el-table__cell {
+      background: transparent !important;
+      color: #c8ddf5 !important;
+      font-size: 11px !important;
+      text-align: center !important;
+      border-right: 1px solid rgba(0, 80, 160, 0.12) !important;
+      border-bottom: 1px solid rgba(0, 80, 160, 0.1) !important;
+    }
+
+    .el-table td.el-table__cell:last-child {
+      border-right: none !important;
+    }
+
+    .el-table tr,
+    .el-table__row {
+      background: transparent !important;
+    }
+
+    .el-table tr:hover>td.el-table__cell {
+      background: rgba(0, 80, 160, 0.12) !important;
+    }
+
+    /* 关键：覆盖 Element Plus 默认的白色背景（伪元素） */
+    .el-table::before,
+    .el-table::after,
+    .el-table__inner-wrapper::before,
+    .el-table__inner-wrapper::after,
+    .el-table__body-wrapper::before,
+    .el-table__body-wrapper::after {
+      background: transparent !important;
+      display: none !important;
+    }
+
+    /* 关键：所有 el-table 子元素都是透明背景 */
+    .el-table__row,
+    .el-table__row--striped,
+    .el-table__body,
+    .el-table__header,
+    .el-table__footer,
+    .el-table tr,
+    .el-table tbody,
+    .el-table thead,
+    .el-table colgroup,
+    .el-table col {
+      background: transparent !important;
+      background-color: transparent !important;
+    }
+
+    /* 滚动条 */
+    .el-table__body-wrapper::-webkit-scrollbar,
+    .el-table__header-wrapper::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .el-table__body-wrapper::-webkit-scrollbar-track,
+    .el-table__header-wrapper::-webkit-scrollbar-track {
+      background: rgba(0, 20, 40, 0.5) !important;
+    }
+
+    .el-table__body-wrapper::-webkit-scrollbar-thumb,
+    .el-table__header-wrapper::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #0077cc, #0099cc) !important;
+      border-radius: 4px;
+    }
+
+    /* 输入框/选择器/弹窗/分页 关键样式 */
+    .el-input__wrapper {
+      background: #091f35 !important;
+      box-shadow: none !important;
+      border: 1px solid #0e3a5c !important;
+      border-radius: 6px;
+    }
+
+    .el-pagination {
+      --el-pagination-bg-color: transparent;
+      --el-pagination-button-bg-color: rgba(0, 50, 110, 0.3);
+      --el-pagination-button-color: #6aa3c8;
+      --el-pagination-button-border-color: #0d3050;
+      --el-pagination-text-color: #6aa3c8;
+    }
+
+    /* critical form dark theme: prevent white flash */
+    :root {
+      --el-bg-color: #091f35;
+      --el-bg-color-overlay: #0a2640;
+      --el-fill-color-blank: #091f35;
+      --el-fill-color-light: #0a2640;
+      --el-border-color: #0e3a5c;
+      --el-border-color-light: #0e3a5c;
+      --el-text-color-primary: #c8ddf5;
+      --el-text-color-regular: #a0c8e8;
+      --el-text-color-placeholder: #4d7d9e;
+      --el-color-primary: #0077cc;
+    }
+
+    input,
+    select,
+    textarea,
+    .form-input,
+    .form-select,
+    .el-input,
+    .el-select,
+    .el-date-editor,
+    .el-textarea,
+    .el-input-number {
+      color: #c8ddf5 !important;
+      font-family: 'Microsoft YaHei', 'Microsoft JhengHei', 'PingFang SC', sans-serif;
+    }
+
+    input,
+    select,
+    textarea,
+    .form-input,
+    .form-select,
+    .el-input__wrapper,
+    .el-select__wrapper,
+    .el-textarea__inner,
+    .el-input-number,
+    .el-input-number .el-input__wrapper {
+      background: #091f35 !important;
+      background-color: #091f35 !important;
+      border-color: #0e3a5c !important;
+      color: #c8ddf5 !important;
+      box-shadow: 0 0 0 1px #0e3a5c inset !important;
+    }
+
+    .el-input__inner,
+    .el-select__selected-item,
+    .el-select__placeholder,
+    .el-date-editor .el-input__inner,
+    .el-textarea__inner {
+      color: #c8ddf5 !important;
+      -webkit-text-fill-color: #c8ddf5 !important;
+    }
+
+    .el-input__inner::placeholder,
+    .el-textarea__inner::placeholder,
+    input::placeholder,
+    textarea::placeholder {
+      color: #4d7d9e !important;
+      -webkit-text-fill-color: #4d7d9e !important;
+    }
+
+    .form-section,
+    .filter-bar,
+    .runbox,
+    .el-dialog,
+    .el-message-box {
+      background: linear-gradient(135deg, #040e1e, #061828) !important;
+      border-color: #0d3050 !important;
+      color: #c8ddf5 !important;
+    }
+
+    .el-overlay,
+    .el-overlay-dialog {
+      background: rgba(0, 5, 15, 0.68) !important;
+    }
+
+    .el-popper,
+    .el-select__popper,
+    .el-picker__popper,
+    .app-select-popper,
+    .pm-date-popper,
+    .wv-month-popper,
+    .dc-group-popper,
+    .el-select-dropdown,
+    .el-picker-panel,
+    .el-date-picker,
+    .el-picker-panel__body,
+    .el-picker-panel__body-wrapper,
+    .el-picker-panel__content,
+    .el-date-picker__header,
+    .el-date-table,
+    .el-month-table,
+    .el-year-table {
+      background: #0a2640 !important;
+      background-color: #0a2640 !important;
+      border-color: #0e3a5c !important;
+      color: #c8ddf5 !important;
+    }
+
+    .el-select-dropdown__item,
+    .el-date-picker__header-label,
+    .el-picker-panel__icon-btn,
+    .el-date-table th,
+    .el-date-table td,
+    .el-date-table-cell__text,
+    .el-month-table td .cell,
+    .el-year-table td .cell {
+      color: #c8ddf5 !important;
+    }
+
+    .el-select-dropdown__item:hover,
+    .el-select-dropdown__item.hover,
+    .el-date-table td.available:hover .el-date-table-cell__text,
+    .el-month-table td.available:hover .cell,
+    .el-year-table td.available:hover .cell {
+      background: rgba(0, 119, 204, 0.3) !important;
+      color: #ffffff !important;
+    }
+
+    .el-select-dropdown__item.selected,
+    .el-date-table td.current:not(.disabled) .el-date-table-cell__text,
+    .el-month-table td.current:not(.disabled) .cell,
+    .el-year-table td.current:not(.disabled) .cell {
+      background: #0077cc !important;
+      color: #ffffff !important;
+    }
+
+    .el-input-number__decrease,
+    .el-input-number__increase {
+      background: #0a2640 !important;
+      border-color: #0e3a5c !important;
+      color: #6aa3c8 !important;
+    }
+    .app-select-popper .el-select-dropdown__list,
+    .im-month-popper .el-select-dropdown__list {
+      padding-right: 10px !important;
+    }
+
+    .app-select-popper .el-select-dropdown__item,
+    .im-month-popper .el-select-dropdown__item {
+      height: 28px !important;
+      min-height: 28px !important;
+      line-height: 28px !important;
+      margin-right: 2px !important;
+      padding: 0 9px !important;
+      font-size: 12px !important;
+      border-radius: 5px !important;
+      background: transparent !important;
+    }
+
+    .app-select-popper .el-scrollbar__bar.is-vertical,
+    .im-month-popper .el-scrollbar__bar.is-vertical {
+      right: 1px !important;
+      width: 8px !important;
+      background: rgba(3, 9, 15, 0.95) !important;
+      opacity: 1 !important;
+    }
+    /* 防止 Vue 渲染前的内容闪烁 */
+    [v-cloak] {
+      display: none !important;
+    }
+
+    /* 页面容器：防止任何白色背景 */
+    body,
+    #app,
+    #app-scale-wrap,
+    #app-canvas {
+      background: #03090f !important;
+    }
+  </style>
+  <script type="module" crossorigin src="/assets/index-BSI7HQ8F.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CQZ8Z7CK.css">
+</head>
+
+<body>
+  <div id="app">
+    <div class="app-loader">系统加载中</div>
+  </div>
+</body>
+
+</html>
+
+

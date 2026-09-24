@@ -1,0 +1,66 @@
+# ============================================
+# EditorConfig - 统一团队编辑器配置
+# 主流编辑器（VSCode / WebStorm / Sublime / Vim）均自动识别
+# ============================================
+
+root = true
+
+[*]
+# 字符编码：强制 UTF-8（无 BOM）
+charset                  = utf-8
+# 缩进风格
+indent_style             = space
+# 缩进大小
+indent_size              = 2
+# 行尾符号：LF（与 .gitattributes 一致）
+end_of_line              = lf
+# 文件末尾保留一个空行
+insert_final_newline     = true
+# 去掉行尾多余空格（Markdown 文件除外）
+trim_trailing_whitespace = true
+# 编码相关
+max_line_length          = off
+
+# ----------------------------------------
+# Python（Django）后端：4 空格缩进
+# ----------------------------------------
+[*.py]
+indent_size              = 4
+max_line_length          = 120
+
+# ----------------------------------------
+# 前端代码：保留 2 空格
+# ----------------------------------------
+[*.{js,mjs,cjs,ts,jsx,tsx,vue}]
+indent_size              = 2
+quote_type               = single
+# Vue 模板由各项目 lint 规则管，不在这里强制
+
+# SCSS / CSS
+[*.{scss,sass,css}]
+indent_size              = 2
+
+# ----------------------------------------
+# 文档 / 配置：保留 2 空格
+# ----------------------------------------
+[*.{md,json,yml,yaml,xml,html}]
+indent_size              = 2
+# Markdown 行尾空格是有意义的（用于换行），不要 trim
+trim_trailing_whitespace = false
+
+# ----------------------------------------
+# 脚本文件
+# ----------------------------------------
+[*.{sh,bash}]
+indent_size              = 2
+end_of_line              = lf
+
+[*.{bat,cmd,ps1}]
+indent_size              = 4
+end_of_line              = crlf
+
+# ----------------------------------------
+# Makefile 必须用 Tab 缩进
+# ----------------------------------------
+[Makefile]
+indent_style             = tab

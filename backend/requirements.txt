@@ -1,0 +1,15 @@
+Django>=4.2
+djangorestframework>=3.14
+django-cors-headers>=4.0
+psycopg2-binary>=2.9
+requests>=2.31
+openpyxl>=3.1
+PyMySQL>=1.1
+# ★ 2026-09-08 补齐：Excel .xlsm/.xls 原生读取（preplan_service/import_views）实际依赖 pandas
+pandas>=2.0
+numpy>=1.26
+# ★ 2026-09-15 补齐：pandas 3.0+ 不再自动带 xlrd，但 .xls 读取仍需要它
+xlrd>=2.0.1
+# ★ 2026-09-18 性能：Excel 高速读取引擎（Rust 版 calamine），xlsx/xls 比 openpyxl 快约 5 倍。
+#   preplan_service 会优先用它、缺省自动回退 openpyxl；打包时需一并打进便携运行时。
+python-calamine>=0.8.2

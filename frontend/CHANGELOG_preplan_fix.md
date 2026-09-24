@@ -1,0 +1,5 @@
+- 修正表格与 ORT 规则区域的重叠问题：整个内容区包裹在 `.scroll-area` 内滚动
+- 修正标记色从粉色 `#FFCCCC` 改为深色主题适配的暗红半透明底 `rgba(220,50,50,0.28)` + 亮色文字
+- 表格移除 `flex:1` 和 `max-height:500` 限制，让表格高度自动撑开
+- 添加空状态占位提示
+- 外层 `.preplan-view` 改为 `overflow: hidden`，滚动由 `.scroll-area` 负责

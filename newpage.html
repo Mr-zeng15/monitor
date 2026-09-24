@@ -1,0 +1,404 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><title>DQAEB1 · QC风控卫士</title></head><body>X</body></html><style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft JhengHei","PingFang SC",sans-serif;background:#03090f;color:#c8ddf5;}
+.R{width:1920px;height:1080px;display:grid;grid-template-rows:120px 44px 1fr;grid-template-columns:230px 1fr;grid-template-areas:"H H""A A""N M";}
+/* HEADER */
+header{grid-area:H;position:relative;display:flex;align-items:stretch;overflow:hidden;}
+header::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#020810,#061428 20%,#081c38 50%,#061428 80%,#020810);z-index:0;}
+header::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,120,255,.012) 3px,rgba(0,120,255,.012) 4px);z-index:1;pointer-events:none;}
+.hbrand{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 22px;flex-shrink:0;min-width:180px;gap:5px;}
+.hbrand::after{content:'';position:absolute;right:0;top:8%;bottom:8%;width:1px;background:linear-gradient(to bottom,transparent,rgba(0,120,200,.35) 50%,transparent);}
+.hgem{width:7px;height:7px;background:#0af;transform:rotate(45deg);margin-bottom:3px;box-shadow:0 0 10px rgba(0,170,255,.7);}
+.hbrand .eng{font-size:12px;font-weight:300;color:#1e4a64;letter-spacing:4px;text-transform:uppercase;}
+.hbrand .chn{font-size:28px;font-weight:700;color:#daeeff;letter-spacing:1.5px;line-height:1.05;}
+.hbrand .chn em{color:#00d4aa;font-style:normal;text-shadow:0 0 16px rgba(0,212,170,.5);}
+.hbline{width:36px;height:1px;background:linear-gradient(90deg,transparent,rgba(0,200,180,.45),transparent);margin-top:5px;}
+.hgroups{position:relative;z-index:2;display:flex;align-items:stretch;flex:1;padding:10px 12px;gap:12px;}
+.hcard{flex:1;background:linear-gradient(135deg,rgba(0,20,50,.6),rgba(0,30,70,.4));border:1px solid rgba(0,100,180,.25);border-radius:10px;padding:10px 14px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;}
+.hcard::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:10px 10px 0 0;}
+.hcard.e::after{background:linear-gradient(90deg,transparent,#40c8f8 40%,transparent);}
+.hcard.d::after{background:linear-gradient(90deg,transparent,#f08080 40%,transparent);}
+.hcard.a::after{background:linear-gradient(90deg,transparent,#40e8a8 40%,transparent);}
+.hcard-title{display:flex;align-items:baseline;gap:8px;}
+.hcard-name{font-size:15px;font-weight:600;letter-spacing:.5px;}
+.hcard-name.e{color:#7dd8f8;}.hcard-name.d{color:#f0a8a8;}.hcard-name.a{color:#7de8c0;}
+.hcard-tgt{font-size:9.5px;font-weight:300;color:#1e4060;margin-left:auto;}
+.hcard-fabs{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;}
+.hfab{display:flex;align-items:center;gap:7px;}
+.hfab-name{font-size:12px;font-weight:500;color:#2a5870;min-width:20px;}
+.hfab-val{font-size:20px;font-weight:700;line-height:1;}
+.hfab-val.g{color:#00d4aa;}.hfab-val.y{color:#e8b838;}.hfab-val.r{color:#e85858;}
+.hfab-arr{font-size:13px;font-weight:700;}
+.hfab-arr.up{color:#006848;}.hfab-arr.dn{color:#882020;}
+.hright{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 22px;gap:10px;flex-shrink:0;min-width:148px;}
+.hright::before{content:'';position:absolute;left:0;top:8%;bottom:8%;width:1px;background:linear-gradient(to bottom,transparent,rgba(0,120,200,.3) 50%,transparent);}
+.ldot{width:7px;height:7px;border-radius:50%;background:#00d4aa;animation:pulse 1.6s infinite;flex-shrink:0;}
+.lbadge{display:flex;align-items:center;gap:5px;background:rgba(0,212,170,.05);border:1px solid rgba(0,212,170,.2);border-radius:20px;padding:3px 10px;font-size:9.5px;font-weight:300;color:#00d4aa;white-space:nowrap;}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 6px rgba(0,212,170,.6)}50%{opacity:.3;box-shadow:none}}
+.htime{text-align:center;}.htime .t{font-size:24px;font-weight:400;color:#c0d8e8;line-height:1.1;letter-spacing:2px;}.htime .dd{font-size:9px;font-weight:300;color:#1a4060;margin-top:2px;}
+/* ALERT */
+.astrip{grid-area:A;display:flex;align-items:center;overflow:hidden;background:linear-gradient(90deg,#0a0e14,#0d1420 30%,#0d1420 70%,#0a0e14);border-top:1px solid rgba(180,80,60,.35);border-bottom:1px solid rgba(0,80,160,.2);}
+.albl{display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,#8a1010,#a82020);color:#ffd0d0;font-size:16px;font-weight:600;padding:0 18px;height:100%;flex-shrink:0;letter-spacing:1.5px;box-shadow:4px 0 12px rgba(160,30,30,.4);}
+.albl-dot{width:8px;height:8px;border-radius:50%;background:#ff8080;animation:adot 1.2s ease-in-out infinite;flex-shrink:0;}
+@keyframes adot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
+.ascroll-wrap{flex:1;overflow:hidden;}
+.ascroll{display:inline-block;white-space:nowrap;font-size:16px;font-weight:400;color:#e8c850;padding-left:24px;letter-spacing:.3px;animation:sl 40s linear infinite;}
+@keyframes sl{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+/* NAV */
+nav{grid-area:N;background:linear-gradient(180deg,#020a16,#030c18);border-right:1px solid #091e30;display:flex;flex-direction:column;overflow:hidden;}
+.nlb{padding:13px 14px 11px;border-bottom:1px solid #091e30;display:flex;align-items:center;gap:10px;}
+.nbadge{background:linear-gradient(135deg,#003070,#005090);color:#c8e8ff;font-size:14px;font-weight:600;letter-spacing:1px;padding:5px 11px;border-radius:5px;}
+.ntxt{font-size:12px;font-weight:300;color:#2a5070;}
+.ngrp{border-bottom:1px solid #091e30;}
+.nghdr{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;font-size:15px;font-weight:500;color:#8ac0d8;user-select:none;transition:background .2s;}
+.nghdr:hover{background:rgba(0,80,160,.08);}
+.nghdr .arr{font-size:11px;color:#1a3a50;transition:transform .25s;}
+.nghdr.open .arr{transform:rotate(90deg);}
+.ndd{overflow:hidden;max-height:0;transition:max-height .35s ease;}.ndd.open{max-height:800px;}
+.nslbl{font-size:11px;font-weight:300;color:#0e2a40;letter-spacing:1px;padding:9px 14px 3px 16px;text-transform:uppercase;}
+.ni{display:flex;align-items:center;gap:8px;padding:9px 14px 9px 20px;cursor:pointer;border-left:2px solid transparent;font-size:14px;color:#4a7890;transition:all .18s;}
+.ni:hover{background:rgba(0,80,160,.1);color:#a0c8d8;}
+.ni.act{background:rgba(0,80,180,.12);border-left-color:#0060aa;color:#d0e8f8;font-weight:500;}
+.nbdg{margin-left:auto;background:#a82020;color:#fff;border-radius:10px;padding:1px 7px;font-size:10px;}
+.nki{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 30px;cursor:pointer;font-size:12.5px;color:#2f5a6e;border-left:2px solid transparent;transition:all .15s;}
+.nki:hover{background:rgba(0,60,130,.08);color:#80a8c0;}
+.nki.act{color:#00d4aa;border-left-color:#00d4aa;}
+.nkdot{width:5px;height:5px;border-radius:50%;background:#102030;flex-shrink:0;}
+.nki.act .nkdot{background:#00d4aa;}
+.ndiv{height:1px;background:#060f1c;margin:4px 12px;}
+.nbot{margin-top:auto;border-top:1px solid #091e30;padding:10px 14px;}
+.nbi{display:flex;align-items:center;gap:8px;padding:8px 6px;font-size:13px;font-weight:300;color:#204858;cursor:pointer;border-radius:5px;transition:all .15s;}
+.nbi:hover{background:rgba(0,60,120,.1);color:#5a8898;}
+/* MAIN */
+main{grid-area:M;display:flex;flex-direction:column;padding:10px 14px 10px 14px;gap:8px;overflow:hidden;background:#030a14;}
+.pbar{display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.ptag{background:rgba(0,60,120,.4);border:1px solid #0d3050;color:#5a90b8;font-size:9.5px;font-weight:400;padding:3px 10px;border-radius:4px;letter-spacing:.5px;}
+.ptitle{font-size:14px;font-weight:500;color:#c8e0f8;letter-spacing:.8px;margin-left:10px;}
+.ptitle span{color:#00d4aa;}
+.pright{display:flex;align-items:center;gap:8px;}
+.bsm{font-size:9px;font-weight:300;padding:3px 10px;border-radius:12px;cursor:pointer;border:1px solid #0d3050;background:rgba(0,40,90,.2);color:#3a6070;transition:all .15s;}
+.bsm:hover{background:rgba(0,60,130,.28);color:#7098b8;}
+.bsm.act{background:rgba(0,70,160,.28);border-color:#0050a0;color:#90c0e8;}
+
+/* ════ 横向卡片 4×4 ════ */
+.auto-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:8px;min-height:0;}
+
+/* 横向长方体卡片 */
+.ac{
+ background:linear-gradient(135deg,#050f1e,#071a2e);
+ border:1px solid #0d2a48;border-radius:10px;
+ display:flex;flex-direction:row;align-items:stretch;
+ cursor:pointer;position:relative;overflow:hidden;
+ transition:border-color .22s,transform .12s,box-shadow .22s;
+}
+.ac:hover{
+ border-color:#1a6090;
+ transform:translateY(-2px) scale(1.01);
+ box-shadow:0 8px 30px rgba(0,100,200,.4);
+}
+/* 顶部彩线 */
+.ac::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:10px 10px 0 0;
+ background:linear-gradient(90deg,rgba(0,140,255,0),#0088ff 30%,rgba(0,200,255,.6) 60%,rgba(0,140,255,0));}
+/* 左侧竖线 */
+.ac::before{content:'';position:absolute;left:0;top:8%;bottom:8%;width:2px;border-radius:2px;
+ background:linear-gradient(to bottom,rgba(0,160,255,.6),rgba(0,80,160,.2));}
+
+/* 左侧：机器人区域 */
+.ac-robot-zone{
+ flex-shrink:0;width:110px;
+ display:flex;align-items:center;justify-content:center;
+ background:linear-gradient(135deg,rgba(0,30,70,.4),rgba(0,15,40,.6));
+ border-right:1px solid rgba(0,80,160,.15);
+ position:relative;overflow:hidden;
+}
+/* 发光背景 */
+.ac-robot-zone::after{
+ content:'';position:absolute;inset:0;
+ background:radial-gradient(ellipse at 50% 60%,rgba(0,140,255,.12),transparent 70%);
+ pointer-events:none;
+}
+/* 序号 */
+.ac-num{
+ position:absolute;top:5px;left:8px;
+ font-size:9px;font-weight:600;color:#1a4060;
+ background:rgba(0,60,140,.25);border-radius:3px;padding:1px 5px;
+ z-index:2;
+}
+
+/* ── CSS 机器人（横向紧凑版） ── */
+.robot-wrap{
+ position:relative;width:72px;height:80px;
+ transition:transform .3s;z-index:1;
+}
+.ac:hover .robot-wrap{transform:scale(1.1) translateY(-3px);}
+/* 桌 */
+.rb-desk{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:70px;height:18px;background:linear-gradient(180deg,#1a2d4a,#0d1e30);border-radius:4px 4px 3px 3px;border:1px solid #1e3a5a;box-shadow:0 3px 8px rgba(0,0,0,.6);}
+/* 笔记本 */
+.rb-laptop{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:46px;height:26px;background:linear-gradient(135deg,#0a2a5e,#0044a0);border-radius:3px 3px 1px 1px;border:1px solid #0066cc;box-shadow:0 0 12px rgba(0,120,255,.5);display:flex;align-items:center;justify-content:center;}
+.rb-laptop::before{content:'QC';font-size:8px;font-weight:700;color:#40c8f8;letter-spacing:1px;text-shadow:0 0 6px #40c8f8;}
+/* 身体 */
+.rb-body{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);width:34px;height:20px;background:linear-gradient(180deg,#3a4a5e,#252f3e);border-radius:6px 6px 3px 3px;border:1px solid rgba(0,140,255,.35);display:flex;align-items:center;justify-content:center;}
+.rb-body::after{content:'QC';font-size:7px;font-weight:700;color:#40c8f8;text-shadow:0 0 5px rgba(0,200,255,.8);}
+/* 手臂 */
+.rb-arm-l,.rb-arm-r{position:absolute;bottom:28px;width:9px;height:16px;background:linear-gradient(180deg,#3a4a5e,#252f3e);border:1px solid rgba(0,120,200,.3);border-radius:4px;}
+.rb-arm-l{left:calc(50% - 22px);border-radius:4px 2px 4px 4px;}
+.rb-arm-r{right:calc(50% - 22px);border-radius:2px 4px 4px 4px;}
+/* 头部 */
+.rb-head{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);width:40px;height:36px;background:linear-gradient(160deg,#4a5a70,#2e3a4e);border-radius:50% 50% 40% 40%;border:1px solid rgba(0,160,255,.4);box-shadow:0 0 14px rgba(0,120,255,.3),inset 0 1px 4px rgba(255,255,255,.1);display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px;}
+.rb-head::before{content:'';position:absolute;top:4px;left:50%;transform:translateX(-50%);width:1px;height:14px;background:linear-gradient(to bottom,rgba(0,160,255,.5),transparent);}
+/* 眼睛 */
+.rb-eyes{display:flex;gap:6px;align-items:center;z-index:1;}
+.rb-eye{width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#80e8ff 0%,#0099ee 50%,#0044aa 100%);box-shadow:0 0 8px #40c8ff,0 0 14px rgba(0,180,255,.6);animation:blink 3.5s ease-in-out infinite;}
+@keyframes blink{0%,92%,96%,100%{transform:scaleY(1)}93%,95%{transform:scaleY(.15)}}
+/* 天线 */
+.rb-antenna{position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:1.5px;height:12px;background:linear-gradient(to top,#3a4a5e,#6a8aaa);}
+.rb-antenna::after{content:'';position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;background:radial-gradient(circle,#40d8ff,#0088cc);box-shadow:0 0 8px #40d8ff,0 0 16px rgba(0,200,255,.6);animation:antPulse 2s ease-in-out infinite;}
+@keyframes antPulse{0%,100%{box-shadow:0 0 6px #40d8ff,0 0 12px rgba(0,200,255,.4)}50%{box-shadow:0 0 14px #40d8ff,0 0 28px rgba(0,200,255,.7)}}
+/* 耳机 */
+.rb-ear-l,.rb-ear-r{position:absolute;bottom:48px;width:7px;height:12px;border-radius:50%;background:linear-gradient(180deg,#2a3a4e,#1a2838);border:1px solid rgba(0,140,220,.4);}
+.rb-ear-l{left:calc(50% - 22px);}.rb-ear-r{right:calc(50% - 22px);}
+.rb-ear-l::after,.rb-ear-r::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:4px;height:4px;border-radius:50%;background:radial-gradient(circle,rgba(0,180,255,.7),rgba(0,80,160,.4));box-shadow:0 0 5px rgba(0,180,255,.6);}
+
+/* 右侧：信息区 */
+.ac-info{
+ flex:1;display:flex;flex-direction:column;justify-content:center;
+ padding:10px 14px 10px 12px;gap:5px;min-width:0;
+}
+/* 大字机器人名称 */
+.ac-name{
+ font-size:15px;font-weight:700;color:#c8e0f8;
+ letter-spacing:.3px;line-height:1.3;
+ white-space:pre-line;
+}
+/* 副标题 */
+.ac-sub{font-size:9px;font-weight:300;color:#2a5070;letter-spacing:.3px;line-height:1.4;}
+/* 状态 + 快速数据行 */
+.ac-meta{display:flex;align-items:center;gap:8px;margin-top:2px;flex-wrap:wrap;}
+.ac-status{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:400;padding:2px 8px;border-radius:8px;flex-shrink:0;}
+.ac-status.on{background:rgba(0,212,170,.08);color:#00d4aa;border:1px solid rgba(0,212,170,.2);}
+.ac-status.off{background:rgba(232,184,56,.08);color:#e8b838;border:1px solid rgba(232,184,56,.2);}
+.ac-status-dot{width:5px;height:5px;border-radius:50%;}
+.ac-status.on .ac-status-dot{background:#00d4aa;box-shadow:0 0 4px #00d4aa;animation:pulse 1.5s infinite;}
+.ac-status.off .ac-status-dot{background:#e8b838;}
+.ac-chip{font-size:8.5px;font-weight:300;color:#1e3a50;padding:1px 6px;border-radius:6px;background:rgba(0,40,90,.3);border:1px solid rgba(0,60,120,.2);}
+
+/* ════ 运行弹窗 ════ */
+.runov{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,5,15,.85);backdrop-filter:blur(8px);}
+.runov.show{display:flex;align-items:center;justify-content:center;}
+.runbox{background:linear-gradient(135deg,#040e20,#071828);border:1px solid #1050a0;border-radius:16px;padding:28px 32px;width:680px;box-shadow:0 0 60px rgba(0,100,220,.4),0 24px 80px rgba(0,20,80,.8);position:relative;text-align:center;}
+.runbox-close{position:absolute;top:14px;right:16px;font-size:18px;color:#1a4060;cursor:pointer;}
+.runbox-close:hover{color:#90c0e0;}
+/* 大机器人 */
+.run-robot{position:relative;width:140px;height:150px;margin:0 auto 16px;}
+.rr-desk{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:136px;height:38px;background:linear-gradient(180deg,#1a2d4a,#0d1e30);border-radius:6px 6px 4px 4px;border:1px solid #1e3a5a;box-shadow:0 4px 16px rgba(0,0,0,.7);}
+.rr-laptop{position:absolute;bottom:35px;left:50%;transform:translateX(-50%);width:88px;height:50px;background:linear-gradient(135deg,#0a2a5e,#0044a0);border-radius:5px 5px 2px 2px;border:1px solid #0066cc;box-shadow:0 0 20px rgba(0,120,255,.7);display:flex;align-items:center;justify-content:center;}
+.rr-laptop::before{content:'QC';font-size:14px;font-weight:700;color:#40c8f8;letter-spacing:2px;text-shadow:0 0 8px #40c8f8;}
+.rr-body{position:absolute;bottom:56px;left:50%;transform:translateX(-50%);width:66px;height:44px;background:linear-gradient(180deg,#3a4a5e,#252f3e);border-radius:10px 10px 5px 5px;border:1px solid rgba(0,140,255,.4);display:flex;align-items:center;justify-content:center;}
+.rr-body::after{content:'QC';font-size:13px;font-weight:700;color:#40c8f8;letter-spacing:1px;text-shadow:0 0 8px rgba(0,200,255,.8);}
+.rr-arm-l,.rr-arm-r{position:absolute;bottom:58px;width:18px;height:36px;background:linear-gradient(180deg,#3a4a5e,#252f3e);border:1px solid rgba(0,120,200,.3);border-radius:6px;}
+.rr-arm-l{left:calc(50% - 46px);border-radius:6px 3px 6px 6px;}
+.rr-arm-r{right:calc(50% - 46px);border-radius:3px 6px 6px 6px;}
+.rr-head{position:absolute;bottom:94px;left:50%;transform:translateX(-50%);width:78px;height:72px;background:linear-gradient(160deg,#4a5a70,#2e3a4e);border-radius:50% 50% 40% 40%;border:1px solid rgba(0,160,255,.45);box-shadow:0 0 24px rgba(0,120,255,.4),inset 0 2px 6px rgba(255,255,255,.1);display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;}
+.rr-head::before{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:2px;height:28px;background:linear-gradient(to bottom,rgba(0,160,255,.5),transparent);}
+.rr-eyes{display:flex;gap:12px;align-items:center;z-index:1;}
+.rr-eye{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#80e8ff 0%,#0099ee 50%,#0044aa 100%);box-shadow:0 0 14px #40c8ff,0 0 28px rgba(0,180,255,.6);animation:blink 3.5s ease-in-out infinite;}
+.rr-ant{position:absolute;top:-28px;left:50%;transform:translateX(-50%);width:2.5px;height:26px;background:linear-gradient(to top,#3a4a5e,#6a8aaa);}
+.rr-ant::after{content:'';position:absolute;top:-9px;left:50%;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;background:radial-gradient(circle,#40d8ff,#0088cc);box-shadow:0 0 14px #40d8ff,0 0 28px rgba(0,200,255,.6);animation:antPulse 2s ease-in-out infinite;}
+.rr-ear-l,.rr-ear-r{position:absolute;bottom:96px;width:14px;height:26px;border-radius:50%;background:linear-gradient(180deg,#2a3a4e,#1a2838);border:1px solid rgba(0,140,220,.4);}
+.rr-ear-l{left:calc(50% - 42px);}.rr-ear-r{right:calc(50% - 42px);}
+.rr-ear-l::after,.rr-ear-r::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:radial-gradient(circle,rgba(0,180,255,.7),rgba(0,80,160,.4));box-shadow:0 0 8px rgba(0,180,255,.6);}
+/* 弹窗内容 */
+.run-title{font-size:18px;font-weight:600;color:#c8e0f8;margin-bottom:6px;letter-spacing:.5px;}
+.run-subtitle{font-size:11px;font-weight:300;color:#3a6080;margin-bottom:16px;}
+.run-status-row{display:flex;justify-content:center;gap:14px;margin-bottom:16px;}
+.run-stat{background:rgba(0,25,60,.45);border:1px solid #0d3050;border-radius:8px;padding:10px 18px;text-align:center;}
+.run-stat .sl{font-size:9px;font-weight:300;color:#2a5070;margin-bottom:4px;}
+.run-stat .sv{font-size:20px;font-weight:600;}
+.run-stat .sv.g{color:#00d4aa;}.run-stat .sv.y{color:#e8b838;}.run-stat .sv.r{color:#e85858;}
+.run-progress{margin-bottom:16px;}
+.run-progress-lbl{font-size:9px;font-weight:300;color:#2a5070;display:flex;justify-content:space-between;margin-bottom:6px;}
+.run-bar{height:6px;background:rgba(0,40,80,.4);border-radius:3px;overflow:hidden;}
+.run-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#0055aa,#00d4aa);transition:width 1.2s ease-out;}
+.run-logs{text-align:left;background:rgba(0,10,24,.5);border:1px solid #0a2030;border-radius:8px;padding:10px 12px;max-height:80px;overflow-y:auto;font-size:9px;font-weight:300;color:#3a6070;line-height:1.6;margin-bottom:14px;}
+.run-log-g{color:#00a880;}.run-log-y{color:#b09020;}.run-log-r{color:#b04040;}
+.run-btns{display:flex;gap:10px;justify-content:center;}
+.run-btn{font-size:11px;font-weight:500;padding:8px 22px;border-radius:20px;cursor:pointer;border:none;transition:all .2s;}
+.run-btn.primary{background:linear-gradient(135deg,#0055aa,#0077cc);color:#fff;box-shadow:0 4px 16px rgba(0,100,200,.4);}
+.run-btn.primary:hover{box-shadow:0 6px 24px rgba(0,120,240,.6);}
+.run-btn.sec{background:rgba(0,40,80,.3);color:#5a90b8;border:1px solid #0d3050;}
+.run-btn.sec:hover{background:rgba(0,60,120,.4);}
+</style></head><body><div class="R">
+<header>
+ <div class="hbrand">
+ <div class="hgem"></div>
+ <div class="eng">DQAEB1</div>
+ <!-- ★ 品牌名改为 QC风控卫士 -->
+ <div class="chn">QC<em>风控</em>卫士</div>
+ <div class="hbline"></div>
+ </div>
+ <div class="hgroups">
+ <div class="hcard e"><div class="hcard-title"><span class="hcard-name e">整体执行率</span><span class="hcard-tgt">目标 ≥ 95%</span></div><div class="hcard-fabs"><div class="hfab"><span class="hfab-name">2A</span><span class="hfab-val g">96.2%</span><span class="hfab-arr up">↑</span></div><div class="hfab"><span class="hfab-name">2B</span><span class="hfab-val y">94.8%</span><span class="hfab-arr dn">↓</span></div><div class="hfab"><span class="hfab-name">2C</span><span class="hfab-val r">91.3%</span><span class="hfab-arr dn">↓</span></div><div class="hfab"><span class="hfab-name">2D</span><span class="hfab-val g">97.1%</span><span class="hfab-arr up">↑</span></div></div></div>
+ <div class="hcard d"><div class="hcard-title"><span class="hcard-name d">DPPM</span><span class="hcard-tgt">目标 ≤ 120</span></div><div class="hcard-fabs"><div class="hfab"><span class="hfab-name">2A</span><span class="hfab-val g">98</span><span class="hfab-arr up">↑</span></div><div class="hfab"><span class="hfab-name">2B</span><span class="hfab-val r">142</span><span class="hfab-arr dn">↓</span></div><div class="hfab"><span class="hfab-name">2C</span><span class="hfab-val g">115</span><span class="hfab-arr up">↑</span></div><div class="hfab"><span class="hfab-name">2D</span><span class="hfab-val r">158</span><span class="hfab-arr dn">↓</span></div></div></div>
+ <div class="hcard a"><div class="hcard-title"><span class="hcard-name a">ABL 件数</span><span class="hcard-tgt">目标 ≤ 3</span></div><div class="hcard-fabs"><div class="hfab"><span class="hfab-name">2A</span><span class="hfab-val g">2</span><span class="hfab-arr up">↑</span></div><div class="hfab"><span class="hfab-name">2B</span><span class="hfab-val y">5</span><span class="hfab-arr dn">↓</span></div><div class="hfab"><span class="hfab-name">2C</span><span class="hfab-val g">1</span><span class="hfab-arr up">↑</span></div><div class="hfab"><span class="hfab-name">2D</span><span class="hfab-val g">0</span><span class="hfab-arr up">↑</span></div></div></div>
+ </div>
+ <div class="hright"><div class="lbadge"><span class="ldot"></span>实时更新中</div><div class="htime"><div class="t">19:28</div><div class="dd">2026 / 07 / 28</div></div></div>
+</header>
+<div class="astrip"><div class="albl"><span class="albl-dot"></span>⚠ 告警</div><div class="ascroll-wrap"><span class="ascroll">🔴【DPPM超标】2B DPPM 142 &nbsp;&nbsp;&nbsp; 🔴【DPPM超标】2D DPPM 158 &nbsp;&nbsp;&nbsp; 🟡【结案率预警】IPC-0712逾期15天 &nbsp;&nbsp;&nbsp; 🔴【OOC告警】2B机台Z超限 &nbsp;&nbsp;&nbsp; 🟡【再发率超标】3.8%超目标 &nbsp;&nbsp;&nbsp; 🟢【焕新行动】92.3%达标 &nbsp;&nbsp;&nbsp; 🔴【DPPM超标】2B 142 &nbsp;&nbsp;&nbsp; 🔴【DPPM超标】2D 158</span></div></div>
+<nav>
+ <div class="nlb"><div class="nbadge">DQAEB1</div><div class="ntxt">QC 风控卫士平台</div></div>
+ <div class="ngrp"><div class="nghdr" onclick="tg(this)"><span>🛡️ 风控卫士</span><span class="arr">▶</span></div><div class="ndd"><div class="nslbl">数据型（WorkFlow）</div><div class="ni" onclick="tkg(this)">⚙️&nbsp;过程管理 IPQC<span class="nbdg">3</span></div><div class="nks" id="k1" style="display:none"><div class="nki"><span class="nkdot"></span>执行率</div><div class="nki"><span class="nkdot"></span>再发率★</div></div><div class="ni">🔍&nbsp;成品抽检 OQC</div><div class="ni">📋&nbsp;外部指标</div><div class="ni">👥&nbsp;出勤管理</div><div class="ni">🌐&nbsp;能力云图</div></div></div>
+ <div class="ngrp"><div class="nghdr open" onclick="tg(this)"><span>⚡ 流程自动化</span><span class="arr">▶</span></div>
+ <div class="ndd open">
+ <div class="nslbl">作业自动化</div>
+ <div class="ni act">🤖&nbsp;16项自动化机器人</div>
+ <div class="nki act"><span class="nkdot"></span>AN单管理系列（3）</div>
+ <div class="nki"><span class="nkdot"></span>Check list 收集（2）</div>
+ <div class="nki"><span class="nkdot"></span>KPI / 报表系列（4）</div>
+ <div class="nki"><span class="nkdot"></span>工单 / 库存系列（4）</div>
+ <div class="nki"><span class="nkdot"></span>人事 / 培训系列（3）</div>
+ <div class="ndiv"></div>
+ <div class="nslbl">邮件自动化</div>
+ <div class="ni">📧&nbsp;自动发送邮件</div>
+ <div class="ni">📊&nbsp;定时报表推送</div>
+ </div></div>
+ <div class="nbot"><div class="nbi">⚙️&nbsp;调度设置</div><div class="nbi">📤&nbsp;运行日志</div><div class="nbi">❓&nbsp;使用说明</div></div>
+</nav>
+<main>
+ <div class="pbar">
+ <div style="display:flex;align-items:center">
+ <span class="ptag">流程自动化</span>
+ <span class="ptitle">作业自动化机器人 <span>· 16项流程</span></span>
+ <span style="font-size:8.5px;font-weight:300;color:#c8a020;background:rgba(200,160,32,.06);border:1px solid rgba(200,160,32,.18);padding:2px 7px;border-radius:10px;margin-left:8px;">点击机器人 → 查看运行状态</span>
+ </div>
+ <div class="pright">
+ <span style="font-size:8.5px;color:#1a3a50">运行中 12 · 待机 4</span>
+ <button class="bsm act">全部机器人</button>
+ <button class="bsm">运行日志</button>
+ <button class="bsm">调度设置</button>
+ </div>
+ </div>
+ <div class="auto-grid" id="agrid"></div>
+</main>
+</div>
+<!-- 弹窗 -->
+<div class="runov" id="runov" onclick="if(event.target.id==='runov')closeRun()">
+ <div class="runbox">
+ <span class="runbox-close" onclick="closeRun()">✕</span>
+ <div class="run-robot">
+ <div class="rr-ear-l"></div><div class="rr-ear-r"></div>
+ <div class="rr-head"><div class="rr-eyes"><div class="rr-eye"></div><div class="rr-eye"></div></div><div class="rr-ant"></div></div>
+ <div class="rr-arm-l"></div><div class="rr-arm-r"></div>
+ <div class="rr-body"></div><div class="rr-laptop"></div><div class="rr-desk"></div>
+ </div>
+ <div class="run-title" id="run-title">机器人</div>
+ <div class="run-subtitle" id="run-sub">自动化流程</div>
+ <div class="run-status-row">
+ <div class="run-stat"><div class="sl">本月执行次数</div><div class="sv g" id="rs-count">—</div></div>
+ <div class="run-stat"><div class="sl">成功率</div><div class="sv g" id="rs-rate">—</div></div>
+ <div class="run-stat"><div class="sl">平均耗时</div><div class="sv y" id="rs-time">—</div></div>
+ <div class="run-stat"><div class="sl">最近运行</div><div class="sv g" id="rs-last">—</div></div>
+ </div>
+ <div class="run-progress">
+ <div class="run-progress-lbl"><span>当前进度</span><span id="run-pct">—</span></div>
+ <div class="run-bar"><div class="run-bar-fill" id="run-fill" style="width:0"></div></div>
+ </div>
+ <div class="run-logs" id="run-logs"></div>
+ <div class="run-btns">
+ <button class="run-btn primary" onclick="closeRun()">立即执行</button>
+ <button class="run-btn sec" onclick="closeRun()">查看日志</button>
+ <button class="run-btn sec" onclick="closeRun()">关闭</button>
+ </div>
+ </div>
+</div><script>
+function tg(el){el.classList.toggle('open');el.nextElementSibling.classList.toggle('open');}
+function tkg(el){let n=el.nextElementSibling;if(n&&n.classList.contains('nks')){n.style.display=n.style.display==='none'?'block':'none';}}
+
+const procs=[
+ {name:'AN单\n开立', sub:'自动识别异常触发 AN 单建立', run:true, count:248,rate:'98.4%',time:'2.3分',last:'今天 18:52',pct:76,
+ logs:['[18:52:01] ✅ 读取数据源，共 32 笔待处理','[18:52:03] ✅ 数据验证通过','[18:52:08] ✅ 成功开立 AN 单 28 笔','[18:52:10] ⚠️ 4 笔缺必填栏位，已告警','[18:52:12] ✅ 流程完成']},
+ {name:'AN单\n周月管理', sub:'定期汇总 AN 单状态推送报表', run:true, count:32, rate:'100%', time:'5.1分',last:'今天 08:00',pct:100,
+ logs:['[08:00:01] ✅ 读取本周 AN 单数据 156 笔','[08:00:05] ✅ 生成周汇总报表','[08:00:08] ✅ 邮件推送完成（12位）','[08:00:09] ✅ 月报 Excel 更新至 SharePoint']},
+ {name:'AN单\n结案时效', sub:'监控逾期未结案自动催办', run:true, count:190,rate:'97.2%',time:'1.8分',last:'今天 17:30',pct:88,
+ logs:['[17:30:02] ✅ 扫描逾期 AN 单，共 5 笔超时','[17:30:04] ✅ 自动发送催办邮件','[17:30:06] ✅ 更新逾期状态看板','[17:30:08] ⚠️ 1 笔逾期超 15 天，升级通知 Mgr']},
+ {name:'客户稽核系统\nChecklist 收集', sub:'自动汇整客户稽核条目', run:true, count:48, rate:'100%', time:'8.4分',last:'昨天 16:00',pct:100,
+ logs:['[16:00:01] ✅ 读取客户稽核系统数据','[16:00:05] ✅ Check list 汇整 86 项','[16:00:09] ✅ 发送给 QE 团队','[16:00:11] ✅ 归档至 SharePoint']},
+ {name:'E-report\nChecklist 收集', sub:'E-report 检查项自动收集汇总', run:true, count:156,rate:'99.1%',time:'3.2分',last:'今天 09:15',pct:95,
+ logs:['[09:15:00] ✅ 连接 E-report 系统成功','[09:15:03] ✅ 收集 Check list 共 234 项','[09:15:06] ✅ 异常项目 8 笔已标记红旗','[09:15:09] ✅ 汇总报表推送完成']},
+ {name:'SPC\nKPI 管理', sub:'自动计算 Cpk 并生成 KPI 报表', run:true, count:320,rate:'98.8%',time:'4.5分',last:'今天 06:00',pct:100,
+ logs:['[06:00:01] ✅ 读取 SPC 数据，128 个参数','[06:00:08] ✅ 计算 Cpk，均值 1.45','[06:00:12] ✅ 3 个参数告警已标记','[06:00:15] ✅ KPI 月报更新至看板']},
+ {name:'Sample\n点检提醒', sub:'定时推送样品点检任务通知', run:true, count:480,rate:'100%', time:'0.5分',last:'今天 19:00',pct:100,
+ logs:['[19:00:00] ✅ 读取今日点检排程 24 站','[19:00:01] ✅ 推送 LINE/Email 提醒','[19:00:02] ✅ 12/24 站已回报完成','[19:00:02] ⚠️ 12 站待完成，已二次提醒']},
+ {name:'出货\n检验报告', sub:'自动产出 OQC 出货检验报告', run:false,count:88, rate:'96.5%',time:'6.8分',last:'今天 14:20',pct:0,
+ logs:['[14:20:01] ✅ 读取当日出货清单 32 批','[14:20:05] ✅ 检验数据匹配，28 批合格','[14:20:08] ⚠️ 4 批 DPPM 超标阻挡出货','[14:20:12] ✅ 出货报告 PDF 发送客户']},
+ {name:'自动\n建Chart', sub:'异常数据自动生成分析图表', run:true, count:210,rate:'99.5%',time:'2.1分',last:'今天 18:00',pct:82,
+ logs:['[18:00:01] ✅ 侦测 12 笔异常数据触发','[18:00:03] ✅ 自动绘制 Pareto/趋势图','[18:00:05] ✅ 图表嵌入 PowerPoint 模板','[18:00:07] ✅ 发送至相关工程师信箱']},
+ {name:'Q工单管理\n自动开立&关闭', sub:'品质工单全流程自动化监控', run:true, count:165,rate:'97.6%',time:'3.8分',last:'今天 17:45',pct:70,
+ logs:['[17:45:00] ✅ 侦测异常，工单开立条件触发','[17:45:02] ✅ 自动开立 Q 工单 8 笔','[17:45:06] ✅ 逾期工单 3 笔已催办','[17:45:09] ⚠️ 1 笔逾期升级通知主管']},
+ {name:'SPL/MRB Code\n自动申请&建档', sub:'特殊放行码自动化管理', run:false,count:42, rate:'98.0%',time:'5.5分',last:'昨天 15:00',pct:0,
+ logs:['[15:00:01] ✅ 读取待申请 SPL 清单 8 笔','[15:00:04] ✅ 自动填写申请表单','[15:00:08] ✅ MRB Code 建档完成','[15:00:10] ✅ 关联数据更新完成']},
+ {name:'SQC 自动\n库存报表', sub:'水位/进出/锁帐/EDA 自动上抛', run:true, count:60, rate:'100%', time:'4.2分',last:'今天 07:00',pct:100,
+ logs:['[07:00:01] ✅ 读取 SQC 库存水位数据','[07:00:03] ✅ 进出料明细汇总完成','[07:00:06] ✅ 锁帐影响分析报告生成','[07:00:09] ✅ EDA 自动上抛完成']},
+ {name:'WHMS Report\n系统自动维护', sub:'仓库管理系统报表自动更新', run:true, count:120,rate:'99.2%',time:'3.6分',last:'今天 06:30',pct:100,
+ logs:['[06:30:01] ✅ 连接 WHMS 系统成功','[06:30:03] ✅ 读取昨日收发货数据','[06:30:07] ✅ 报表更新至 SharePoint','[06:30:09] ✅ 自动发送 Report 至管理层']},
+ {name:'Training &\n回训一览表', sub:'培训计划进度自动追踪汇整', run:false,count:28, rate:'100%', time:'2.8分',last:'昨天 17:00',pct:0,
+ logs:['[17:00:01] ✅ 读取培训系统数据','[17:00:03] ✅ 汇整本月培训完成状况','[17:00:05] ⚠️ 3 人回训逾期，已发提醒','[17:00:07] ✅ 一览表 Excel 已更新']},
+ {name:'出货限制式\n确认', sub:'出货前自动核查所有限制条件', run:true, count:310,rate:'97.9%',time:'1.5分',last:'今天 18:30',pct:90,
+ logs:['[18:30:00] ✅ 读取出货清单 48 批','[18:30:02] ✅ 核查品质限制条件','[18:30:04] ✅ 44 批通过可正常出货','[18:30:05] ⚠️ 4 批存在限制，通知 QE']},
+ {name:'假勤\n管理', sub:'员工出勤异常自动侦测与预警', run:true, count:96, rate:'100%', time:'1.2分',last:'今天 18:00',pct:100,
+ logs:['[18:00:00] ✅ 读取刷卡系统数据','[18:00:01] ✅ 今日出勤率 96.8%','[18:00:02] ⚠️ 2 人未刷卡，已发 LINE 提醒','[18:00:03] ✅ 假勤报表更新至 HR 系统']}
+];
+
+/* 渲染 16 张横向卡片 */
+const grid=document.getElementById('agrid');
+procs.forEach((p,i)=>{
+ const card=document.createElement('div');
+ card.className='ac';
+ card.innerHTML=`
+ <!-- 左：机器人区 -->
+ <div class="ac-robot-zone">
+ <div class="ac-num">${String(i+1).padStart(2,'0')}</div>
+ <div class="robot-wrap">
+ <div class="rb-ear-l"></div><div class="rb-ear-r"></div>
+ <div class="rb-head"><div class="rb-eyes"><div class="rb-eye"></div><div class="rb-eye"></div></div><div class="rb-antenna"></div></div>
+ <div class="rb-arm-l"></div><div class="rb-arm-r"></div>
+ <div class="rb-body"></div>
+ <div class="rb-laptop"></div>
+ <div class="rb-desk"></div>
+ </div>
+ </div>
+ <!-- 右：信息区 -->
+ <div class="ac-info">
+ <div class="ac-name">${p.name}</div>
+ <div class="ac-sub">${p.sub}</div>
+ <div class="ac-meta">
+ <div class="ac-status ${p.run?'on':'off'}">
+ <div class="ac-status-dot"></div>${p.run?'运行中':'待机中'}
+ </div>
+ <div class="ac-chip">执行 ${p.count}次</div>
+ <div class="ac-chip">成功率 ${p.rate}</div>
+ </div>
+ </div>`;
+ card.addEventListener('click',()=>openRun(i));
+ grid.appendChild(card);
+});
+
+function openRun(i){
+ const p=procs[i];
+ document.getElementById('run-title').textContent=p.name.replace(/\n/g,' ')+' 机器人';
+ document.getElementById('run-sub').textContent=p.sub;
+ document.getElementById('rs-count').textContent=p.count;
+ document.getElementById('rs-rate').textContent=p.rate;
+ document.getElementById('rs-time').textContent=p.time;
+ document.getElementById('rs-last').textContent=p.last;
+ document.getElementById('run-pct').textContent=p.run?p.pct+'%':'待启动';
+ const fill=document.getElementById('run-fill');
+ fill.style.width='0';
+ setTimeout(()=>{fill.style.width=p.run?p.pct+'%':'0%';},100);
+ document.getElementById('run-logs').innerHTML=p.logs.map(l=>{
+ const c=l.includes('✅')?'run-log-g':l.includes('⚠️')?'run-log-y':'run-log-r';
+ return`<div class="${c}">${l}</div>`;
+ }).join('');
+ document.getElementById('runov').classList.add('show');
+}
+function closeRun(){document.getElementById('runov').classList.remove('show');}
+</script></body></html>

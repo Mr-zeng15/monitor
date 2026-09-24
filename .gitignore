@@ -1,0 +1,147 @@
+# ============================================
+# 产量监控系统 - 根目录 .gitignore
+# ============================================
+
+# ---- Python / Django ----
+*.log
+*.pot
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+.venv/
+venv/
+build/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+db.sqlite3
+db.sqlite3-journal
+/media
+/staticfiles
+/static_root
+
+logs/
+*.err.log
+*.out.log
+
+.env
+.env.local
+.env.*.local
+
+# 测试 / 覆盖率
+.coverage
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# ---- Node / Vite / 前端 ----
+node_modules/
+dist/
+# 便携 Node.js 运行时（100MB，随完整环境版打包分发，不入库）
+frontend/runtime/
+dist-ssr/
+*.local
+
+# ---- IDE ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ---- 备份文件 ----
+*.bak
+*.backup
+
+# ---- 临时 / 调试文件 ----
+*.tmp
+*.temp
+.cache/
+
+# ---- 文档/办公文档（可选，按需保留）----
+# *.docx
+# *.pdf
+
+# ---- 项目特定：测试用 Excel ----
+test_*.xlsx
+test_*.xls
+inspect_*.py
+test_*.py
+check_*.py
+fix_*.py
+seed_*.py
+diag_*.py
+extract_*.ps1
+add_*.py
+add_*.bat
+fix_zoom_scroll.py
+a.txt
+a - 副本.html
+
+# ---- V1.0 打包目录（独立交付用，不进版本库）----
+/7-31/
+/产量监控预警系统_v1.0/
+
+# ---- 编码备份/恢复目录（AI 工具留下的中间产物）----
+/.codex-backup-*/
+/.codex-backups/
+*.codex-backup
+.cox*
+
+# ---- 部署/运行产物（独立交付用，不进版本库）----
+/部署包/
+backend/backups/
+backend/data_snapshots/
+backend/excel_flow/
+*.zip
+
+# ---- 本地测试数据 / 样例 Excel / Office 锁文件 ----
+/test_data/
+/S13_DPS_2026*.xlsx
+/Monthly input target*.xlsx
+~$*
+*.xlsx~
+
+# ---- 临时 mock / 生成脚本（本地造数用）----
+verify_mock_plan_a.py
+verify_dual_excel.py
+gen_mock_plan_a.py
+gen_mock_dual_excel.py
+mock_plan_*.py
+
+# ---- 非产品工具/技能（简历工具、Agent 技能等，不进版本库）----
+/tools/
+/.agents/
+/skills-lock.json
+
+# ---- 前端 build 备份目录（safe-delete 临时备份，不进版本库）----
+/backend/static/_frontend_old_*/
+
+# ---- 2026-09-24 公开仓库化：本地密钥 / 库边文件 / 业务文档（一律不进仓）----
+backend/local_secrets.py
+backend/db.sqlite3-wal
+backend/db.sqlite3-shm
+backend/db.sqlite3.bak*
+*.bak-*
+.workbuddy/
+/docs/
+/*.md
+/QC_AI_TEAM*
